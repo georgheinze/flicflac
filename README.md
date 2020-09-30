@@ -5,19 +5,19 @@ SAS-macros for Firth's corrected logistic, conditional logistic and Poisson regr
 
 Here we provide our SAS-macros to fit Firth-corrected regression models, in particular logistic, conditional logistic and Poisson regression models. Special macros are available to implement the FLIC and FLAC methods of Puhr et al (2017) <doi:10.1002/sim.7273>.
 
-## FL.SAS
+## LogisticRegression/FL.SAS
 
 The 'old' SAS macro to fit logistic regression models using SAS/PROC IML code. Unlike the implementation of Firth's correction in SAS/PROC LOGISTIC, this macro is also able to provide p-values based on penalized likelihood ratio tests for each regression coefficient. It also computes profile penalized likelihood confidence intervals as described by Heinze and Schemper (2002), Heinze and Ploner (2003),  Heinze (2006), and Mansournia, Geroldinger, Greenland and Heinze (2018).
 
-## CFL.SAS
+## ConditionalLogisticRegression/CFL.SAS
 
 Implements the conditional Firth-corrected logistic regression methods described in Heinze and Puhr (2010) <>. It uses SAS/PROC LOGISTIC to compute the conditional distribution of sufficient statistics which can computationally burdensome.
 
-## FLICFLAC.SAS
+## LogisticRegression/FLICFLAC.SAS
 
 This macro implements the FLIC and FLAC methods as described by Puhr, Heinze, Nold, Lusa and Geroldinger (2017). These methods are particularly interesting for predicting with penalized logistic regression. Unlike the default Firth correction, with FLIC and FLAC it is guaranteed that the average predicted probability is equal to the observed event rate. With rare events, Firth correction can lead to inflated average predicted proabilities such that predictions are biased high. Recently, van Calster, van Smeden, de Cock and Steyerberg (2020) showed that the FLIC method can yield calibration slopes which have mean squared error smaller than competing methods that use cross-validation to tune penalty parameters such as the Lasso or ridge regression .
 
-## FLACPOISSON.SAS
+## PoissonRegression/FLACPOISSON.SAS
 
 With this macro, the Firth and FLIC/FLAC methods can be used with Poisson and Negative Binomial regression. The macro builds on iterated calls of PROC GENMOD. Multiple, equally-structured data sets can be processed with very efficient use of BY-processing.
 
