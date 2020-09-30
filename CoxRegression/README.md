@@ -4,4 +4,4 @@ As of SAS Version 9, Firth's correction has been implemented for Cox regression 
 
 The SAS macro FC06.SAS allows to compute p-values based on penalized likelihood ratio tests which are compatible with the profile penalized likelihood confidence intervals. Furthermore, the macro can handle time-dependent effects and counting-process style to represent survival times with left-truncation.
 
-The core routines reside in a DLL or EXE file which must be made callable from the macro. This requires some installation steps which are outlined in the Technical Report. You can download the full suite of files needed to run the macro as a zip file.
+The core routines reside in a DLL or EXE file which must be made callable from the macro. This requires some installation steps which are outlined in the Technical Report. You can download the full suite of files needed to run the macro by downloading fc06.zip.
