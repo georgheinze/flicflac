@@ -11,7 +11,7 @@ The 'old' SAS macro to fit logistic regression models using SAS/PROC IML code. U
 
 ## ConditionalLogisticRegression/CFL.SAS
 
-Implements the conditional Firth-corrected logistic regression methods described in Heinze and Puhr (2010) <>. It uses SAS/PROC LOGISTIC to compute the conditional distribution of sufficient statistics which can computationally burdensome.
+Implements the conditional Firth-corrected logistic regression methods described in Heinze and Puhr (2010). It uses SAS/PROC LOGISTIC to compute the conditional distribution of sufficient statistics which can computationally burdensome.
 
 ## LogisticRegression/FLICFLAC.SAS
 
