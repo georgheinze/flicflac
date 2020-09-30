@@ -1,0 +1,12 @@
+ROUTINE FIRTHCOX minarg=3 maxarg=3 stackorder=r2l callseq=byaddr 
+stackpop=called transpose=yes module=fc06;
+ arg 1 num input  required format=rb8; * CARDS ;
+ arg 2 num update required format=rb8.; * PARMS ;
+ arg 3 num update required format=rb8.; * IOARRAY;
+ 
+
+ROUTINE PLCOMP minarg=3 maxarg=3 stackorder=r2l callseq=byaddr stackpop=called transpose=yes module=fc06;
+ arg 1 num input required format=rb8.;  * CARDS   ;
+ arg 2 num update required format=rb8.; * PARMS   ;
+ arg 3 num update required format=rb8.; * IOARRAY ;
+ 
