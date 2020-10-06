@@ -41,3 +41,6 @@ Another way to treat the problem is by rounding of the continuous covariate. How
 * default works but with rounded continuous variable z1;
 %cfl(data=simhard, y=y, strata=strata, varlist=x z1, condition=DIRECT);
 ```
+
+Further new features include an automatic erasure of previous results tables such that if an error occurs, the macro does not show you 'old' results.
+
