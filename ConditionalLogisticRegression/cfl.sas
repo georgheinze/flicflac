@@ -1,5 +1,5 @@
 %macro cfl(data=, varlist=, covar=, strata=, y=, maxit=50, epsilon=0.001, conflev=0.95,  by=,
-            outtab=_res_, print=1, indist=, insuff=, rf=0.001, optn=0, lownumber=1e-7);
+            outtab=_res_, print=1, indist=, insuff=, rf=0.001, optn=0, lownumber=1e-7, condition=direct, norm=0, moreoptions=);
 
 *** version 120716;
 *** last changes:
@@ -30,12 +30,23 @@
 					if this data set has been computed by a previous call of the macro (with the same data set, but with different modeling options)
 			        then you can access it by specifying insuff=__insuff_
 
-*** Options controlling iteration:
+*** Options controlling iteration and computation:
 
 	maxit ...		maximum number of iterations
 	epsilon ...		maximum allowed change in parameter estimates to stop iteration
 	rf ...			rounding factor for distribution of sufficient statistic
 	lownumber ...	limit for computation of log
+	norm ...		normalize counts (may sometimes help to solve numerical issues)
+	condition ...   algorithm to condition nuisance parameters out of the likelihood. default= direct. 
+					This parameter controls how the joint distribution of sufficient statistics, conditional on strata
+					and nuisance parameters, that is needed in later steps is computed.  If the DIRECT method produces the
+					WARNING: There is not enough memory available for exact computations, then
+					try condition=NETWORK. If NETWORK does not work either, try NETWORKMC. Lastly,
+					you can try MCMC. See also the documentation of the EXACTOPTIONS statement of the PROC LOGISTIC for further
+					details. WARNING: NETWORKMC and MCMC will only approximate the correct result since they rely on a Monte Carlo
+					algorithm.
+	moreoptions ... pass more options to the EXACTOPTIONS statement. Be sure not to include METHOD here. Include in %STR(...). 
+					e.g. moreoptions=%STR(N=100000 NBI=10000)
 	
 *** Output:
 	optn ...		control output of optimization routines (see SAS/IML manual). Values > 0 will allow to retrace iteration.
@@ -76,15 +87,23 @@ set &data;
 %end;
 
 
-
+data _res_; * erase old results;
+run;
 
 %if &indist = %then %do;
+ data __indist_; * erase old results;
+ run;
+ data _dist_;    * erase old results;
+ run;
+
  ods listing close;
- ods output suffstats=__insuff_ exactparmest=__xparmest;
+* ods output suffstats=__insuff_ exactparmest=__xparmest;
+ ods output suffstats=__insuff_;
  proc logistic descending data=_work;
  %if &strata ne %then %do; strata &strata; %end;
  model &y=&varlist &covar;
  exact &varlist/outdist=__indist_ jointonly;
+ exactoptions method=&condition &moreoptions;
  by _rby_;
  run;
  ods listing;
@@ -184,6 +203,7 @@ start like (beta) global(tobs, tc, grad, hess);
 *	if cobs=0 then cobs=1;
 *	like =log(cobs)+ tobs`*beta` - log(S0); * cobs does not depend on beta, so it can be omitted as a constant;
 	if s0<=0 then s0=&lownumber;
+*	print "beta", beta, "TC", tc[1,:], "SR", sr;
     like =tobs`*beta` - log(S0);
 	grad=t(tobs - SR/S0);
 	hess=-(SRS/S0-SR*SR`/(S0**2));
@@ -231,7 +251,7 @@ finish f_pl;
 
 
 use _dist_;
-read all var (%do j=1 %to &nvar; "_t&j" || %end;  "count" || "_rby_") into tc_all;
+read all var (%do j=1 %to &nvar; "_t&j" || %end;  "Count" || "_rby_") into tc_all;
 close _dist_;
 
 use _msd_;
@@ -254,7 +274,7 @@ tobs=tobs-t(tmeans);
 
 tobs=round(tobs,&rf);
 tc[,1:&nvar]=round(tc[,1:&nvar],&rf);
-tc[,&nvar+1]=tc[,&nvar+1]/tc[><,&nvar+1];
+%if &norm %then %do; tc[,&nvar+1]=tc[,&nvar+1]/tc[><,&nvar+1]; %end;
 
 npar=&nvar;
 
