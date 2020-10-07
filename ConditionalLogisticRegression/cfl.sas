@@ -274,7 +274,7 @@ tobs=tobs-t(tmeans);
 
 tobs=round(tobs,&rf);
 tc[,1:&nvar]=round(tc[,1:&nvar],&rf);
-%if &norm %then %do; tc[,&nvar+1]=tc[,&nvar+1]/tc[><,&nvar+1]; %end;
+%if &norm %then %do; tc[,&nvar+1]=tc[,&nvar+1]/max(tc[><,&nvar+1],1); %end;
 
 npar=&nvar;
 
