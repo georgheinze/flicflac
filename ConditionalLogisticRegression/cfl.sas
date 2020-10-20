@@ -1,5 +1,9 @@
 %macro cfl(data=, varlist=, covar=, strata=, y=, maxit=50, epsilon=0.001, conflev=0.95,  by=,
-            outtab=_res_, print=1, indist=, insuff=, rf=0.001, optn=0, lownumber=1e-7, condition=direct, norm=0, moreoptions=);
+            outtab=_res_, print=1, indist=, insuff=, rf=0.001, optn=0, lownumber=1e-7, condition=direct, norm=0, moreoptions=, pval=1, plci=1);
+
+
+*** version 201020;
+*** possible to turn off p-value computation and confidence interval estimation;
 
 *** version 120716;
 *** last changes:
@@ -265,122 +269,127 @@ close __insuff_;
 
 do iby = 1 to &maxrby;
 
-tc=tc_all[loc(tc_all[,ncol(tc_all)]=iby),1:(ncol(tc_all)-1)];
-tmeans=tmeans_all[loc(tmeans_all[,ncol(tmeans_all)]=iby),1:(ncol(tmeans_all)-1)];
-tobs=tobs_all[loc(tobs_all[,ncol(tobs_all)]=iby),1:(ncol(tobs_all)-1)];
+	tc=tc_all[loc(tc_all[,ncol(tc_all)]=iby),1:(ncol(tc_all)-1)];
+	tmeans=tmeans_all[loc(tmeans_all[,ncol(tmeans_all)]=iby),1:(ncol(tmeans_all)-1)];
+	tobs=tobs_all[loc(tobs_all[,ncol(tobs_all)]=iby),1:(ncol(tobs_all)-1)];
 
 
-tobs=tobs-t(tmeans);
+	tobs=tobs-t(tmeans);
 
-tobs=round(tobs,&rf);
-tc[,1:&nvar]=round(tc[,1:&nvar],&rf);
-%if &norm %then %do; tc[,&nvar+1]=tc[,&nvar+1]/max(tc[><,&nvar+1],1); %end;
+	tobs=round(tobs,&rf);
+	tc[,1:&nvar]=round(tc[,1:&nvar],&rf);
+	%if &norm %then %do; tc[,&nvar+1]=tc[,&nvar+1]/max(tc[><,&nvar+1],1); %end;
 
-npar=&nvar;
+	npar=&nvar;
 
-file log;
+	file log;
 
-put "NOTE: DATA set: " iby;
-
-
-beta=repeat(0,1,&nvar);
-optn={1, &optn};
+	put "NOTE: DATA set: " iby;
 
 
-call nlpNRA(rc,betares,"LIKE",beta, optn) grd="F_GRAD" hes="F_HESS"; 
-
-maxlike=like(betares);
-betahat=betares;
-pval=repeat(-1,&nvar,1);
-chi2=repeat(-1,&nvar,1);
-
-*** calculate p-values;
-con=repeat(.,3,&nvar+2);
-con2=con;
-x0=betahat;
-do j=1 to &nvar;
-* x0=betahat;
-* x0[j]=0;
- x0=repeat(0,1,&nvar);
- con2[3,]=0;		*reset all constraints;
- con2[3,j]=1;		*specifies the parameter to be subjected to constraints;	
- con2[3,&nvar+1]=0; *specifies equality constraint;
- con2[3,&nvar+2]=0; *specifies the value at which the parameter is constraint;
+	beta=repeat(0,1,&nvar);
+	optn={1, &optn};
 
 
-* print j,x0,con2,betares,optn,rc;
+	call nlpNRA(rc,betares,"LIKE",beta, optn) grd="F_GRAD" hes="F_HESS"; 
 
- 
- call nlpNRA(rc,betares,"LIKE",x0,optn,con2) grd="F_GRAD" hes="F_HESS"; 
- *print j, betares;
- l0=like(betares);
- Chi2[j]=2*(maxlike-l0);
- pval[j]=1-probchi(chi2[j],1);
+	maxlike=like(betares);
+	betahat=betares;
+	pval=repeat(-1,&nvar,1);
+	chi2=repeat(-1,&nvar,1);
 
-end;
+	%if &pval=1 %then %do;
+		*** calculate p-values;
+		con=repeat(.,3,&nvar+2);
+		con2=con;
+		x0=betahat;
+		do j=1 to &nvar;
+		* x0=betahat;
+		* x0[j]=0;
+		 x0=repeat(0,1,&nvar);
+		 con2[3,]=0;		*reset all constraints;
+		 con2[3,j]=1;		*specifies the parameter to be subjected to constraints;	
+		 con2[3,&nvar+1]=0; *specifies equality constraint;
+		 con2[3,&nvar+2]=0; *specifies the value at which the parameter is constraint;
 
 
-betares=betahat;
-prob= 0.05;
+		* print j,x0,con2,betares,optn,rc;
 
-chqua = cinv(1-prob,1); 
-lstar = maxlike - .5 * chqua; 
-*print chqua lstar;
-optn = {2 0}; 
-hes2=hess;
-xopt=betares`;
-xlb=repeat(.,&nvar,1);
-xub=xlb;
-con=repeat(.,2,&nvar);
-optn={&nvar, &optn};
-   do ipar = 1 to npar;
-     if npar>1 then do;
-	  ind=setdif(1:npar,ipar);
-    /* Compute initial step: */ 
-    /* Choose (alfa,delt) to go in right direction */ 
-    /* Venzon & Moolgavkar (1988), p.89 */ 
-*       if ipar=1 then ind = 2;
-*		else ind = 1; 
-       delt = - inv(hes2[ind,ind]) * hes2[ind,ipar]; 
-       alfa = - (hes2[ipar,ipar] - delt` * hes2[ind,ipar]); 
-       if alfa > 0 then alfa = .5 * sqrt(chqua / alfa); 
-       else do; 
-          print "Bad alpha"; 
-          alfa = .1 * xopt[ipar]; 
-       end; 
-       delt = 1 || delt`; 
-       indices= ipar || ind;
-	   ord = rank(indices);
-       delt[ord] = delt[1:npar];
-   	  end; 
-	  else do;
-	   delt=1;
-	   alfa = .1* xopt[ipar];
-	  end;
-	  alfadelt=(alfa * delt)`;
-	  if alfadelt[ipar]<=1e4 then alfadelt[ipar]=0.1;
-  
-    /* Get upper end of interval */ 
-       x0 = xopt + alfadelt; 
-	   
-    /* set lower bound to optimal value */ 
-       con2 = con; con2[1,ipar] = xopt[ipar]; 
-	   f = f_pl(xopt`);
-	   *print f;
-       call nlplm(rc,betares,"f_pl",x0,optn,con2); 
-       f = f_pl(betares); s = ssq(f); 
-       if (s < 1.e-6) then xub[ipar] = betares[ipar]; 
-          else xub[ipar] = .; 
-  
-    /* Get lower end of interval */ 
-       x0 = xopt - alfadelt; 
-    /* reset lower bound and set upper bound to optimal value */ 
-       con2[1,ipar] = con[1,ipar]; con2[2,ipar] = xopt[ipar]; 
-       call nlplm(rc,betares,"f_pl",x0,optn,con2); 
-       f = f_pl(betares); s = ssq(f); 
-       if (s < 1.e-6) then xlb[ipar] = betares[ipar]; 
-          else xlb[ipar] = .; 
-    end; 
+		 
+		 call nlpNRA(rc,betares,"LIKE",x0,optn,con2) grd="F_GRAD" hes="F_HESS"; 
+		 *print j, betares;
+		 l0=like(betares);
+		 Chi2[j]=2*(maxlike-l0);
+		 pval[j]=1-probchi(chi2[j],1);
+
+	   end;
+	%end;
+
+	betares=betahat;
+	xopt=betares`;
+	xlb=repeat(.,&nvar,1);
+	xub=xlb;
+
+	%if &plci=1 %then %do;
+		prob= 0.05;
+
+		chqua = cinv(1-prob,1); 
+		lstar = maxlike - .5 * chqua; 
+		*print chqua lstar;
+		optn = {2 0}; 
+		hes2=hess;
+		con=repeat(.,2,&nvar);
+		optn={&nvar, &optn};
+	    do ipar = 1 to npar;
+	      if npar>1 then do;
+		  	   ind=setdif(1:npar,ipar);
+		    /* Compute initial step: */ 
+		    /* Choose (alfa,delt) to go in right direction */ 
+		    /* Venzon & Moolgavkar (1988), p.89 */ 
+		*       if ipar=1 then ind = 2;
+		*		else ind = 1; 
+	       	   delt = - inv(hes2[ind,ind]) * hes2[ind,ipar]; 
+		       alfa = - (hes2[ipar,ipar] - delt` * hes2[ind,ipar]); 
+		       if alfa > 0 then alfa = .5 * sqrt(chqua / alfa); 
+		       else do; 
+		          print "Bad alpha"; 
+		          alfa = .1 * xopt[ipar]; 
+		       end; 
+		       delt = 1 || delt`; 
+		       indices= ipar || ind;
+			   ord = rank(indices);
+		       delt[ord] = delt[1:npar];
+	   	  end; 
+		  else do;
+		   delt=1;
+		   alfa = .1* xopt[ipar];
+		  end;
+		  alfadelt=(alfa * delt)`;
+*		  if alfadelt[ipar]<=1e4 then alfadelt[ipar]=0.1;
+		  if alfadelt[ipar]<=1e4 then alfadelt[ipar]=1e4;   *** changed 201020;
+	  
+	    /* Get upper end of interval */ 
+	      x0 = xopt + alfadelt; 
+		   
+	    /* set lower bound to optimal value */ 
+	      con2 = con; con2[1,ipar] = xopt[ipar]; 
+		  f = f_pl(xopt`);
+		   *print f;
+	      call nlplm(rc,betares,"f_pl",x0,optn,con2); 
+	      f = f_pl(betares); s = ssq(f); 
+	      if (s < 1.e-6) then xub[ipar] = betares[ipar]; 
+	      else xub[ipar] = .; 
+	  
+	    /* Get lower end of interval */ 
+	      x0 = xopt - alfadelt; 
+	    /* reset lower bound and set upper bound to optimal value */ 
+	      con2[1,ipar] = con[1,ipar]; con2[2,ipar] = xopt[ipar]; 
+	      call nlplm(rc,betares,"f_pl",x0,optn,con2); 
+	      f = f_pl(betares); s = ssq(f); 
+	      if (s < 1.e-6) then xlb[ipar] = betares[ipar]; 
+	      else xlb[ipar] = .; 
+	    end; 
+	%end;
 	if iby=1 then res=repeat(1,&nvar,1)||t(1:&nvar)||xopt||xlb||xub||chi2||pval;
 	else res=res//(repeat(iby,&nvar,1)||t(1:&nvar)||xopt||xlb||xub||chi2||pval);
     *print "Profile-Likelihood Confidence Interval"; 
