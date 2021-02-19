@@ -1,10 +1,35 @@
-%macro flacpoisson(data=, varlist=, y=, maxiter=15, dist=poisson, outmodelfirth=_FIRTHMODEL, outmodelFLAC=_FLACMODEL, betastart=, offset=, Xconv=0.0001, by=, print=1, nonotes=0, iterinfo=1, pl=1,
-iterhist=_iterhist, finalparms=_finalparms, odsselect=all, deletework=1, keep=);
+%macro flacpoisson(data=, varlist=, y=, maxiter=15, dist=poisson, outmodelfirth=_FIRTHMODEL, outmodelFLAC=_FLACMODEL, 
+betastart=, offset=, Xconv=0.0001, by=, print=1, nonotes=0, iterinfo=1, pl=1,
+iterhist=_iterhist, finalparms=_finalparms, odsselect=all, deletework=1, keep=, flacpredict=_FLACPREDICTIONS, predicted=_FLACpred);
 
-* by: by-processing variable (e.g. for simulation). must not be missing (.).
-* odsselect: none= suppresses all output and leaves ods select none on exit,   all= sets ods select all on exit;
+* FLAC for Poisson regression using iterated calls to PROC GENMOD;
+* Created by Georg Heinze 2020;
+* License: CC-BY-4.0 (see https://creativecommons.org/licenses/by/4.0/);
+
+
+* data: data set with variables;
+* varlist: list of covariates, separated by blanks;
+* y: dependent count variable;
+* maxiter: maximum number of outer iterations;
+* dist: poisson for Poisson regression, negbinom also possible;
+* outmodelfirth: name for Firth model to be referenced later;
+* outmodelFLAC: name for FLAC model to be referenced later;
+* betastart: not used;
+* offset: offset variable (log of rate multiplier);
+* Xconv: convergence criterion for betas;
+* by: by-processing variable (e.g. for simulation). must not be missing (.);
+* print: print results to output destination;
 * nonotes: 1 if options nonotes is active, 0 else (to ensure nonotes is activated on exit);
+* iterinfo: 1 if iteration history should be printed in log window;
+* pl: 1 if profile likelihood confidence intervals (on augmented data) should be computed;
+* iterhist: output data set with iteration history;
+* finalparms: data set with final parameters;
+* odsselect: none= suppresses all output and leaves ods select none on exit,   all= sets ods select all on exit;
+* deletework: delete working data set on exit;
 * keep: any extra variables that should be carried over to the data set with predictions;
+* flacpredict: data set name for predictions from FLAC model;
+* predicted: variable name containing predicted counts;
+
 
 %let iter=1;
 %let conv=0;
@@ -231,12 +256,12 @@ title3 "FLAC model";
 model &y = &varlist _added_covariate_ /dist=&dist 
 	%if &pl=1 %then %do; lrci %end;
 	%if &offset ne %then %do; offset=&offset %end; ;
-output out=_FLACPredictions Predicted=_FLACPred;
+output out=&flacpredict Predicted=&predicted;
 %if &by ne %then %do; by &by; %end;
 run;
 
-data _FLACPredictions;
-set _FLACPredictions;
+data &flacpredict;
+set &flacpredict;
 if _added_covariate_=0;
 run;
 
