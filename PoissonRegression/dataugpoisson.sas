@@ -1,6 +1,11 @@
 %macro dataugpoisson(data=, y=, offset=, varlist=, dist=poisson, priorinterval=1000, outmodel=_DATAUGMODEL, finalparms=_DATAUGParms, by=, S=10000,
 procoptions=, modeloptions=, printprior=0, id=, print=1, odsselect=all);
 
+
+* SAS macro dataugpoisson.sas;
+* Georg Heinze 2020;
+* License: CC-BY-4.0 (see https://creativecommons.org/licenses/by/4.0/);
+
 * implements Bayesian data augmentation (ridge regression, or Bayesian analysis with zero-centered normal prior) for Poisson regression with fixed penalty parameter by data augmentation and approximation;
 * pseudo data is added which represents the Bayesian weakly informative priors centered around 0 for each parameter;
 * penalty parameter can be controlled by specifying the upper limit of a 95% prior interval for the IRR for each variable (option priorinterval);
