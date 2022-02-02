@@ -51,8 +51,8 @@ Puhr R, Heinze G, Nold M, Lusa L, Geroldinger A (2017): "Firth's logistic regres
 
 Mansournia MA, Geroldinger A, Greenland S, Heinze G (2018): "Separation in Logistic Regression: Causes, Consequences, and Control", Am J Epidemiol 187:864-870 <doi:10.1093/aje/kwx299>.
 
-Van Calster, B., van Smeden, M., De Cock, B., Steyerberg, S. (2020). "Regression shrinkage methods for clinical prediction models do not guarantee improved performance: Simulation study", Statistical Methods in Medical Research, to appear <doi:10.1177/0962280220921415>.
-
+Van Calster B, van Smeden M, De Cock B, Steyerberg EW (2020): "Regression shrinkage methods for clinical prediction models do not guarantee improved performance: Simulation study", Statistical Methods in Medical Research 29(11):3166-3178. <doi:10.1177/0962280220921415>.
+  
 
 
 
