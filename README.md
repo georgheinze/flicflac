@@ -23,7 +23,7 @@ Implements Firth's correction for Cox regression as described by Heinze and Sche
 
 ## PoissonRegression/FLACPOISSON.SAS
 
-With this macro, the Firth and FLIC/FLAC methods can be used with Poisson and Negative Binomial regression. The macro builds on iterated calls of PROC GENMOD. Multiple, equally-structured data sets can be processed with very efficient use of BY-processing.
+With this macro, the Firth and FLIC/FLAC methods can be used with Poisson and Negative Binomial regression. The macro builds on iterated calls of PROC GENMOD. Multiple, equally-structured data sets can be processed with very efficient use of BY-processing. The macro implements the method proposed in Joshi et al (2021).
 
 ## Acknowledgment
 
@@ -44,6 +44,8 @@ Heinze, G. (2006): "A comparative investigation of methods for logistic regressi
 Heinze, G., Dunkler, D. (2008): "Avoiding infinite estimates of time-dependent effects in small-sample survival studies", Statistics in Medicine 27:6455-6469 <doi:10.1002/sim.3418>.
 
 Heinze, G., Puhr, R. (2010): "Bias-reduced and separation-proof conditional logistic regression with small or sparse data sets", Statistics in Medicine 29:770-777 <doi:10.1002/sim.3794>.
+
+Joshi A, Geroldinger A, Jiricka L, Senchaudhuri P, Corcoran C, Heinze G (2021): "Solutions to problems of nonexistence of parameter estimates and sparse data bias in Poisson regression." Statistical Methods in Medical Research, early view <doi:10.1177/09622802211065405>
 
 Puhr R, Heinze G, Nold M, Lusa L, Geroldinger A (2017): "Firth's logistic regression with rare events: accurate effect estimates and predictions?", Statistics in Medicine 36:2302-2317 <doi:10.1002/sim.7273>.
 
