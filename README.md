@@ -11,7 +11,7 @@ The 'old' SAS macro to fit logistic regression models using SAS/PROC IML code. U
 
 ## LogisticRegression/FLICFLAC.SAS
 
-This macro implements the FLIC and FLAC methods as described by Puhr, Heinze, Nold, Lusa and Geroldinger (2017). These methods are particularly interesting for predicting with penalized logistic regression. Unlike the default Firth correction, with FLIC and FLAC it is guaranteed that the average predicted probability is equal to the observed event rate. With rare events, Firth correction can lead to inflated average predicted proabilities such that predictions are biased high. Recently, van Calster, van Smeden, de Cock and Steyerberg (2020) showed that the FLIC method can yield calibration slopes which have mean squared error smaller than competing methods that use cross-validation to tune penalty parameters such as the Lasso or ridge regression .
+This macro implements the FLIC and FLAC methods as described by Puhr, Heinze, Nold, Lusa and Geroldinger (2017). These methods are particularly interesting for predicting with penalized logistic regression. Unlike the default Firth correction, with FLIC and FLAC it is guaranteed that the average predicted probability is equal to the observed event rate. With rare events, Firth correction can lead to inflated average predicted proabilities such that predictions are biased high. Recently, van Calster, van Smeden, de Cock and Steyerberg (2020) showed that the FLIC method can yield calibration slopes which have mean squared error smaller than competing methods that use cross-validation to tune penalty parameters such as the Lasso or ridge regression.
 
 ## ConditionalLogisticRegression/CFL.SAS
 
@@ -24,6 +24,10 @@ Implements Firth's correction for Cox regression as described by Heinze and Sche
 ## PoissonRegression/FLACPOISSON.SAS
 
 With this macro, the Firth and FLIC/FLAC methods can be used with Poisson and Negative Binomial regression. The macro builds on iterated calls of PROC GENMOD. Multiple, equally-structured data sets can be processed with very efficient use of BY-processing. The macro implements the method proposed in Joshi et al (2021).
+
+## LogisticRegression/augGEE1.SAS
+
+This macro implements the single-step augmented GEE (augGEE1) approach for fitting GEE with a binary outcome described by Geroldinger, Blagus, Ogden and Heinze (2022). The macro builds on PROC LOGISTIC and PROC GEE. It differs from the method described in the paper only by the missing small-sample correction of the empirical (sandwich) variance estimation.
 
 ## Acknowledgment
 
@@ -52,6 +56,8 @@ Puhr R, Heinze G, Nold M, Lusa L, Geroldinger A (2017): "Firth's logistic regres
 Mansournia MA, Geroldinger A, Greenland S, Heinze G (2018): "Separation in Logistic Regression: Causes, Consequences, and Control", Am J Epidemiol 187:864-870 <doi:10.1093/aje/kwx299>.
 
 Van Calster B, van Smeden M, De Cock B, Steyerberg EW (2020): "Regression shrinkage methods for clinical prediction models do not guarantee improved performance: Simulation study", Statistical Methods in Medical Research 29(11):3166-3178. <doi:10.1177/0962280220921415>.
+
+Geroldinger A, Blagus R, Ogden H, Heinze G (2022): "An investigation of penalization and data augmentation to improve convergence of generalized estimating equations for clustered binary outcomes", BMC Medical Research Methodology 22:168 <doi:10.1186/s12874-022-01641-6>. 
   
 
 
