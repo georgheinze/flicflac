@@ -1,0 +1,37 @@
+NOTE: Option OBS changed to 100.
+NOTE: DATA rare_event
+
+NOTE: Processing inline DATALINES (20 lines)
+
+NOTE: Read 20 rows from DATALINES.
+NOTE: Wrote rare_event (20 rows, 3 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: PROC LOGISTIC data=rare_event
+
+NOTE: Using Python statsmodels.api.Logit version 0.14.6
+NOTE: Output dataset _flactmp1_ written with 20 observations.
+NOTE: ODS plot written: logistic_oddsratio.spec.json
+NOTE: PROC LOGISTIC ODS Graphics generated.
+NOTE: PROC LOGISTIC completed. Results written to: ./ods_output/logistic_results.spec.json
+NOTE: DATA _flactmp2_
+
+
+NOTE: Read 20 rows from _flactmp1_.
+NOTE: Wrote _flactmp2_ (60 rows, 6 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: PROC LOGISTIC data=_flactmp2_
+
+NOTE: Using Python statsmodels.api.Logit version 0.14.6
+NOTE: OUTEST dataset _FLACEST_ written.
+NOTE: OUTMODEL dataset _flacmodel_ written.
+NOTE: ODS plot written: logistic_oddsratio.spec.json
+NOTE: ODS plot written: logistic_roc.spec.json
+NOTE: PROC LOGISTIC ODS Graphics generated.
+NOTE: PROC LOGISTIC completed. Results written to: ./ods_output/logistic_results.spec.json
+NOTE: PROC PRINT data=_FLACEST_
+
+NOTE: PROC PRINT completed: 1 observations printed, 7 variables

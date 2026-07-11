@@ -1,0 +1,18 @@
+{
+  "_captured_at": "2026-07-11T10:54:06Z",
+  "_captured_run_id": "r_848d5e0bdbe54b0b935b4339174e4778",
+  "status": "ok",
+  "exit_code": 0,
+  "log_contains": [
+    "NOTE: PROC GEE data=_flactmp2_ dependent=Some(\"y\") dist=Some(Binomial) corr=Some(Exchangeable)",
+    "NOTE: PROC GEE wrapper=python"
+  ],
+  "log_does_not_contain": [
+    "ERROR:",
+    "[JENNER-ERROR"
+  ],
+  "diagnostics": {
+    "parse_warnings": [],
+    "runtime_warnings": []
+  }
+}

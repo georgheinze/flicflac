@@ -1,0 +1,57 @@
+NOTE: Option OBS changed to 100.
+NOTE: DATA rare_event
+
+NOTE: Processing inline DATALINES (20 lines)
+
+NOTE: Read 20 rows from DATALINES.
+NOTE: Wrote rare_event (20 rows, 4 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: DATA _tmp
+
+
+NOTE: Read 20 rows from rare_event.
+NOTE: Wrote _tmp (20 rows, 4 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: PROC LOGISTIC data=_tmp
+
+NOTE: Using Python statsmodels.api.Logit version 0.14.6
+NOTE: Output dataset _flactmp0_ written with 20 observations.
+NOTE: ODS plot written: logistic_oddsratio.spec.json
+NOTE: PROC LOGISTIC ODS Graphics generated.
+NOTE: PROC LOGISTIC completed. Results written to: ./ods_output/logistic_results.spec.json
+NOTE: DATA _flactmp_
+
+
+NOTE: Read 20 rows from _flactmp0_.
+NOTE: Wrote _flactmp_ (60 rows, 8 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: DATA _flactmp2_
+
+
+NOTE: Read 60 rows from _flactmp_.
+NOTE: Wrote _flactmp2_ (60 rows, 8 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: PROC SORT data=_flactmp2_
+
+NOTE: Read 60 rows from _flactmp2_.
+NOTE: Wrote _flactmp2_ (60 rows, 8 columns).
+NOTE: PROC SORT statement used.
+NOTE: DATA _flactmp2_
+
+
+NOTE: Read 60 rows from _flactmp2_.
+NOTE: Wrote _flactmp2_ (60 rows, 9 columns).
+NOTE: DATA elapsed:
+  wall  0.00 seconds
+  cpu   0.00 seconds
+NOTE: PROC GEE data=_flactmp2_ dependent=Some("y") dist=Some(Binomial) corr=Some(Exchangeable)
+
+NOTE: PROC GEE wrapper=python

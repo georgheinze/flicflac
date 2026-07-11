@@ -1,0 +1,7 @@
+{
+  "bundle": "t001_flac_logistic",
+  "source_file": "LogisticRegression/flicflac.sas",
+  "source_blob_sha": "13a55bfd068db429222c803ec08d787998f6a534",
+  "source_commit": "c1bd793648865144750d2da9e5d7b20d6aaa9e34",
+  "notes": "The %flac macro (Puhr, Heinze, Nold, Lusa, Geroldinger 2017 FLAC method) is reproduced verbatim from flicflac.sas. The repo ships no example caller for its macros, so a small caller with a mock rare-event dataset (20 obs, one binary predictor set) was added to invoke %flac(data=rare_event, y=y, varlist=x1 x2). Runs unmodified end to end: fits the Firth model, builds the pseudo-observation augmented dataset, fits the FLAC-weighted PROC LOGISTIC model, and prints the OUTEST estimates."
+}

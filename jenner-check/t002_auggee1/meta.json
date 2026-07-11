@@ -1,0 +1,7 @@
+{
+  "bundle": "t002_auggee1",
+  "source_file": "LogisticRegression/augGEE1.sas",
+  "source_blob_sha": "0eee97c2a36cbebe2d9bafb2cfecec60adaf5000",
+  "source_commit": "c1bd793648865144750d2da9e5d7b20d6aaa9e34",
+  "notes": "The %augGEE1 macro (single-step augmented GEE approach of Geroldinger, Blagus, Ogden, Heinze 2022) is reproduced verbatim. The repo ships no example caller, so a small caller with mock clustered rare-event data (20 obs, one cluster per row via id=) was added: %augGEE1(data=rare_event, y=y, varlist=x1 x2, id=id). Runs unmodified end to end: fits the Firth model, builds the pseudo-observation clusters, sorts and re-clusters them, and fits the augmented PROC GEE model with a compound-symmetry working correlation."
+}

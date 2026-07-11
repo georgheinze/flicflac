@@ -1,0 +1,27 @@
+               The PHREG Procedure                
+
+Criterion                                    Value
+----------------------  --------------------------
+Number of Observations                         100
+Number of Events                                26
+-2 LOG L                                   184.705
+Convergence Status                     0 Converged
+Estimation Method       Firth Penalized Likelihood
+
+      Testing Global Null Hypothesis: BETA=0      
+
+Test              Chi-Square        DF  Pr > ChiSq
+----------------  ----------  --------  ----------
+Likelihood Ratio     42.6002         4      <.0001
+Wald                 23.2001         4      0.0001
+Score (Log-Rank)     39.7355         4      <.0001
+
+                     Analysis of Maximum Likelihood Estimates                      
+
+Parameter        DF  Estimate  Standard Error  Chi-Square  Pr > ChiSq  Hazard Ratio
+---------  --------  --------  --------------  ----------  ----------  ------------
+T                 1   1.22444         0.49160      6.2036      0.0127         3.402
+N                 1   0.91889         0.42257      4.7285      0.0297         2.507
+G                 1   2.42441         1.47355      2.7070      0.0999        11.296
+CD                1   0.39712         0.44186      0.8078      0.3688         1.488
+
