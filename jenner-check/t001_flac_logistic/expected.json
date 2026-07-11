@@ -1,0 +1,18 @@
+{
+  "_captured_at": "2026-07-11T10:52:45Z",
+  "_captured_run_id": "r_15e2ce35a04748e39e5d1c92bfa4986d",
+  "status": "ok",
+  "exit_code": 0,
+  "log_contains": [
+    "NOTE: OUTEST dataset _FLACEST_ written.",
+    "NOTE: PROC PRINT completed: 1 observations printed, 7 variables"
+  ],
+  "log_does_not_contain": [
+    "ERROR:",
+    "[JENNER-ERROR"
+  ],
+  "diagnostics": {
+    "parse_warnings": [],
+    "runtime_warnings": []
+  }
+}

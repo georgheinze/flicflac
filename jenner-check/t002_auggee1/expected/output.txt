@@ -1,0 +1,76 @@
+                                                    Firth (FL) model                                                    
+
+                                     
+---------------------------  --------
+Number of Observations Read        20
+Number of Observations Used        20
+
+            Response Profile            
+      Probability modeled is y='1'      
+
+Ordered Value  y         Total Frequency
+-------------  --------  ---------------
+            1  0                      19
+            2  1                       1
+
+                                    
+------------------------------------
+WARNING: The model did not converge.
+
+The LOGISTIC Procedure
+Response Variable: y
+
+Criterion     Value
+---------  --------
+AIC           8.423
+-2 Log L      2.423
+SC           11.410
+
+            Analysis of Maximum Likelihood Estimates            
+
+Parameter  Estimate  Standard Error  Wald Chi-Square  Pr > ChiSq
+---------  --------  --------------  ---------------  ----------
+Intercept   -4.2930          1.9075           5.0650      0.0244
+x1           0.7117          2.0488           0.1207      0.7283
+x2           1.5354         10.0633           0.0233      0.8787
+
+                     Odds Ratio Estimates                     
+
+Effect    Point Estimate  95% Wald CL Lower  95% Wald CL Upper
+--------  --------------  -----------------  -----------------
+x1                 2.037              0.037            112.978
+x2                 4.643              0.000     1708993571.845
+
+                                                    Firth (FL) model                                                    
+
+                                                   The GEE Procedure                                                    
+
+Model formula: y ~ x1 + x2
+Dependent Variable: Y
+Distribution: binomial
+Link Function: logit
+Working Correlation Structure: exchangeable
+Correlation Type: Compound Symmetry
+Response Profile: descending order
+Number of Observations Read: 60
+Number of Clusters: 60
+QIC = 77.782492
+QICu = 82.447225
+
+Analysis Of GEE Parameter Estimates
+Empirical Standard Error Estimates
+Parameter                            Estimate      Std Err          Z   Pr > |Z|
+Intercept                           -0.993785     0.495270    -2.0066     0.0448
+x1                                   0.412238     0.655074     0.6293     0.5292
+x2                                  -0.479144     2.773288    -0.1728     0.8628
+
+Analysis Of GEE Parameter Estimates
+Model-Based Standard Error Estimates
+Parameter                            Estimate      Std Err          Z   Pr > |Z|
+Intercept                           -0.993785     0.495492    -2.0057     0.0449
+x1                                   0.412238     0.656561     0.6279     0.5301
+x2                                  -0.479144     2.773515    -0.1728     0.8628
+
+Log Odds Ratio Parameters
+Working Correlation Matrix
+Alpha = 0.000000

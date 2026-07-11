@@ -1,0 +1,95 @@
+                                                    Firth (FL) model                                                    
+
+                                     
+---------------------------  --------
+Number of Observations Read        20
+Number of Observations Used        20
+
+            Response Profile            
+      Probability modeled is y='1'      
+
+Ordered Value  y         Total Frequency
+-------------  --------  ---------------
+            1  0                      19
+            2  1                       1
+
+                                    
+------------------------------------
+WARNING: The model did not converge.
+
+The LOGISTIC Procedure
+Response Variable: y
+
+Criterion     Value
+---------  --------
+AIC           8.423
+-2 Log L      2.423
+SC           11.410
+
+            Analysis of Maximum Likelihood Estimates            
+
+Parameter  Estimate  Standard Error  Wald Chi-Square  Pr > ChiSq
+---------  --------  --------------  ---------------  ----------
+Intercept   -4.2930          1.9075           5.0650      0.0244
+x1           0.7117          2.0488           0.1207      0.7283
+x2           1.5354         10.0633           0.0233      0.8787
+
+                     Odds Ratio Estimates                     
+
+Effect    Point Estimate  95% Wald CL Lower  95% Wald CL Upper
+--------  --------------  -----------------  -----------------
+x1                 2.037              0.037            112.978
+x2                 4.643              0.000     1708993571.845
+
+                                                       FLAC model                                                       
+
+                                     
+---------------------------  --------
+Number of Observations Read        60
+Number of Observations Used        60
+
+            Response Profile            
+      Probability modeled is y='1'      
+
+Ordered Value  y         Total Frequency
+-------------  --------  ---------------
+            1  0                      39
+            2  1                      21
+
+                                             
+---------------------------------------------
+Convergence criterion (GCONV=1E-8) satisfied.
+
+The LOGISTIC Procedure
+Response Variable: y
+
+Criterion     Value
+---------  --------
+AIC          69.684
+-2 Log L     61.684
+SC           78.062
+
+                Analysis of Maximum Likelihood Estimates                
+
+Parameter          Estimate  Standard Error  Wald Chi-Square  Pr > ChiSq
+-----------------  --------  --------------  ---------------  ----------
+Intercept           -3.5981          1.2653           8.0868      0.0045
+x1                   0.5973          0.7755           0.5933      0.4412
+x2                  -0.6936          3.1045           0.0499      0.8232
+_added_covariate_    3.0818          1.1231           7.5297      0.0061
+
+                         Odds Ratio Estimates                          
+
+Effect             Point Estimate  95% Wald CL Lower  95% Wald CL Upper
+-----------------  --------------  -----------------  -----------------
+x1                          1.817              0.397              8.308
+x2                          0.500              0.001            219.450
+_added_covariate_          21.798              2.412            196.965
+
+                                                       FLAC model                                                       
+
+
+Observation Type  Row Name  Link Function  INTERCEPT        X1         X2  _ADDED_COVARIATE_
+----------------  --------  -------------  ---------  --------  ---------  -----------------
+PARMS             LOGISTIC  LOGIT          -3.598147  0.597305  -0.693634           3.081804
+

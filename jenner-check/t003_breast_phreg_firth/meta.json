@@ -1,0 +1,7 @@
+{
+  "bundle": "t003_breast_phreg_firth",
+  "source_file": "CoxRegression/breast.sas",
+  "source_blob_sha": "edefbce232f3e7bfe71cfc26610077112f654313",
+  "source_commit": "c1bd793648865144750d2da9e5d7b20d6aaa9e34",
+  "notes": "breast.sas's own DATA step is reproduced verbatim (all 108 observations and comments, truncated to the first 100 rows to fit the runner's unlicensed-mode cap). CoxRegression/fc06.sas -- the macro this dataset is shipped for -- calls a compiled FORTRAN routine (fc06.dll/fc06exe.exe) that a hosted runner cannot invoke, so this bundle substitutes PROC PHREG's native FIRTH option to exercise the same statistical scenario fc06 targets: Firth-corrected Cox regression on data the repo's own comment says 'produces a monotone likelihood' (Heinze and Schemper, Biometrics 2001)."
+}
